@@ -1,3 +1,4 @@
+// lib/providers/quotes_provider.dart
 import 'package:flutter/material.dart';
 import 'package:quotes_cat_api_sqlite/helper/api_helper.dart';
 import 'package:quotes_cat_api_sqlite/models/quote_model.dart';

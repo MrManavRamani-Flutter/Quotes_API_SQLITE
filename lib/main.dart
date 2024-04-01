@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quotes_cat_api_sqlite/providers/database_provider.dart';
 import 'package:quotes_cat_api_sqlite/providers/quotes_provider.dart';
 import 'package:quotes_cat_api_sqlite/views/home_screen/home_screen.dart';
 
@@ -16,14 +17,17 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => QuotesProvider(),
-        )
+        ),
+        ChangeNotifierProvider<DatabaseProvider>(
+          create: (context) => DatabaseProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(),
         title: 'Quotes App',
         routes: {
-          '/': (context) => const HomePage(),
+          '/': (context) => const HomeScreen(),
         },
       ),
     );
