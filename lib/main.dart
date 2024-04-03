@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quotes_cat_api_sqlite/providers/database_provider.dart';
 import 'package:quotes_cat_api_sqlite/providers/quotes_provider.dart';
+import 'package:quotes_cat_api_sqlite/views/favorite_screen/favorite_quotes_screen.dart';
 import 'package:quotes_cat_api_sqlite/views/home_screen/home_screen.dart';
 
 void main() {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         title: 'Quotes App',
         routes: {
           '/': (context) => const HomeScreen(),
+          'quotes': (context) => const FavoriteScreen(),
         },
       ),
     );

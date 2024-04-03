@@ -1,14 +1,28 @@
-// home_screen.dart
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:quotes_cat_api_sqlite/models/category_model.dart';
-import 'package:quotes_cat_api_sqlite/providers/database_provider.dart';
 import 'package:quotes_cat_api_sqlite/utils/data.dart';
-import 'package:quotes_cat_api_sqlite/views/favorite_screen/favorite_quotes_screen.dart';
 import 'package:quotes_cat_api_sqlite/views/quote_page/detail_quote.dart';
+import 'package:quotes_cat_api_sqlite/views/widgets/manual_drawer.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  HomeScreenState createState() => HomeScreenState();
+}
+
+class HomeScreenState extends State<HomeScreen> {
+  late LinearGradient _backgroundGradient;
+
+  @override
+  void initState() {
+    _backgroundGradient = const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [Colors.black, Colors.blueGrey],
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,76 +31,44 @@ class HomeScreen extends StatelessWidget {
         title: const Text("Home Page"),
         centerTitle: true,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Favorite Quotes'),
-              onTap: () async {
-                Navigator.pop(context); // Close the drawer
-                final databaseProvider =
-                    Provider.of<DatabaseProvider>(context, listen: false);
-                if (databaseProvider.isInitialized) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FavoriteScreen()),
-                  );
-                } else {
-                  // Wait for database initialization
-                  await databaseProvider.initialize();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FavoriteScreen()),
-                  );
-                }
-              },
-            ),
-          ],
+      drawer: const CustomDrawer(),
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        decoration: BoxDecoration(
+          gradient: _backgroundGradient,
         ),
-      ),
-      body: ListView.builder(
-        itemCount: Data.catList.length,
-        itemBuilder: (context, index) {
-          final CategoryModel category = Data.catList[index];
-          return Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Card(
-              color: Colors.white10,
-              elevation: 10,
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DetailQuote(category: category.catName),
-                    ),
-                  );
-                },
-                title: Text(
-                  category.catName,
-                  style: const TextStyle(fontSize: 18),
+        child: ListView.builder(
+          itemCount: Data.catList.length,
+          itemBuilder: (context, index) {
+            final CategoryModel category = Data.catList[index];
+            return Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Card(
+                color: Colors.transparent,
+                elevation: 10,
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailQuote(category: category.catName),
+                      ),
+                    );
+                  },
+                  title: Text(
+                    category.catName,
+                    style: const TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: Colors.white,
+                  ),
                 ),
-                trailing: const Icon(Icons.arrow_forward_ios_outlined),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

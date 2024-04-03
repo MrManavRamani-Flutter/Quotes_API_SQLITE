@@ -48,35 +48,44 @@ class FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   Widget _buildContent() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _favoriteQuotesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final quotes = snapshot.data ?? [];
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blueGrey, Colors.black],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: _favoriteQuotesFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              final quotes = snapshot.data ?? [];
 
-            if (quotes.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No favorite quotes available.',
-                  style: TextStyle(fontSize: 18.0),
-                ),
+              if (quotes.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No favorite quotes available.',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: quotes.length,
+                itemBuilder: (context, index) {
+                  return _buildQuoteCard(context, quotes[index]);
+                },
               );
             }
-
-            return ListView.builder(
-              itemCount: quotes.length,
-              itemBuilder: (context, index) {
-                return _buildQuoteCard(context, quotes[index]);
-              },
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }
