@@ -36,18 +36,11 @@ class FavoriteScreenState extends State<FavoriteScreen> {
         title: const Text('Favorite Quotes'),
         centerTitle: true,
       ),
-      body: _buildContent(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context); // Navigate to previous screen
-        },
-        tooltip: 'Back',
-        child: const Icon(Icons.arrow_back),
-      ),
+      body: buildContent(),
     );
   }
 
-  Widget _buildContent() {
+  Widget buildContent() {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
