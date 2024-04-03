@@ -19,7 +19,15 @@ A new Flutter project.
  - store quote in database
  - display fevorite quote fetch from the database
  - delete favorites quotes
- 
+
+## Quote App Video 
+
+
+https://github.com/MrManavRamani-Flutter/Quotes_API_SQLITE/assets/148671843/6f6b1c29-9f15-48bf-a8e6-0166ef24d56b
+
+
+
+
 ## All Screens 
 | Welcome_screen | Home_screen       | Welcome_screen | Home_screen       |
 |----------------|-------------------|----------------|-------------------|
